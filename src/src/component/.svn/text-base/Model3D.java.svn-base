@@ -1,0 +1,22 @@
+package component;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Model3D {
+
+	private List<Point3D> objListOfPoint3D = new ArrayList<Point3D>();
+
+	public List<Point3D> getObjListOfPoint3D() {
+		return objListOfPoint3D;
+	}
+
+	public void setObjListOfPoint3D(List<Point3D> objListOfPoint3D) {
+		this.objListOfPoint3D = objListOfPoint3D;
+	}
+
+	public void add(Point3D objPoint3D) {
+		objListOfPoint3D.add(objPoint3D);
+	}
+
+}

@@ -1,0 +1,72 @@
+package component;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import consts.Consts;
+
+public class Matrix {
+
+	private List<Point4D> objListOfPoint4D = new ArrayList<Point4D>();
+
+	public Matrix(Integer intType) {
+
+		switch(intType) {
+
+			case Consts.View.INT_FRONT:
+				objListOfPoint4D.add(new Point4D(1.0, 0.0, 0.0, 0.0));
+				objListOfPoint4D.add(new Point4D(0.0, 1.0, 0.0, 0.0));
+				objListOfPoint4D.add(new Point4D(0.0, 0.0, 0.0, 0.0));
+				objListOfPoint4D.add(new Point4D(0.0, 0.0, 0.0, 1.0));
+				break;
+
+			case Consts.View.INT_SIDE:
+				objListOfPoint4D.add(new Point4D(0.0, 0.0, 0.0, 0.0));
+				objListOfPoint4D.add(new Point4D(0.0, 1.0, 0.0, 0.0));
+				objListOfPoint4D.add(new Point4D(0.0, 0.0, 1.0, 0.0));
+				objListOfPoint4D.add(new Point4D(0.0, 0.0, 0.0, 1.0));
+				break;
+
+			case Consts.View.INT_TOP:
+				objListOfPoint4D.add(new Point4D(1.0, 0.0, 0.0, 0.0));
+				objListOfPoint4D.add(new Point4D(0.0, 0.0, 0.0, 0.0));
+				objListOfPoint4D.add(new Point4D(0.0, 0.0, 1.0, 0.0));
+				objListOfPoint4D.add(new Point4D(0.0, 0.0, 0.0, 1.0));
+				break;
+
+		}
+
+	}
+
+	public Point4D multiply(Point4D objArgPoint) {
+
+		double x
+			= objArgPoint.getX() * objListOfPoint4D.get(0).getX()
+			+ objArgPoint.getY() * objListOfPoint4D.get(1).getX()
+			+ objArgPoint.getZ() * objListOfPoint4D.get(2).getX()
+			+ objArgPoint.getW() * objListOfPoint4D.get(3).getX();
+
+		double y
+			= objArgPoint.getX() * objListOfPoint4D.get(0).getY()
+			+ objArgPoint.getY() * objListOfPoint4D.get(1).getY()
+			+ objArgPoint.getZ() * objListOfPoint4D.get(2).getY()
+			+ objArgPoint.getW() * objListOfPoint4D.get(3).getY();
+
+		double z
+			= objArgPoint.getX() * objListOfPoint4D.get(0).getZ()
+			+ objArgPoint.getY() * objListOfPoint4D.get(1).getZ()
+			+ objArgPoint.getZ() * objListOfPoint4D.get(2).getZ()
+			+ objArgPoint.getW() * objListOfPoint4D.get(3).getZ();
+
+		double w
+			= objArgPoint.getX() * objListOfPoint4D.get(0).getW()
+			+ objArgPoint.getY() * objListOfPoint4D.get(1).getW()
+			+ objArgPoint.getZ() * objListOfPoint4D.get(2).getW()
+			+ objArgPoint.getW() * objListOfPoint4D.get(3).getW();
+
+		Point4D objPoint = new Point4D(x, y, z, w);
+
+		return objPoint;
+
+	}
+}

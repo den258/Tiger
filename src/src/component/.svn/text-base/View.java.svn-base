@@ -1,0 +1,181 @@
+package component;
+
+import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JPanel;
+
+import consts.Consts;
+
+public class View extends JPanel implements MouseListener {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 4443797922384408331L;
+
+	/**
+	 * Private Fields
+	 */
+	private List<Point2D> objPointList = new ArrayList<Point2D>();
+	private Integer intViewType = 0;
+	private Model3D objModel3D = new Model3D();
+
+	public Model3D getObjModel3D() {
+		return objModel3D;
+	}
+
+	public void setObjModel3D(Model3D objModel) {
+		this.objModel3D = objModel;
+	}
+
+	/**
+	 *
+	 */
+	public View(Integer intArgViewType) {
+		this.addMouseListener(this);
+		this.intViewType = intArgViewType;
+	}
+
+	/**
+	 *
+	 */
+	@Override
+	public void paint(Graphics g) {
+
+		if (objModel3D.getObjListOfPoint3D().size() < 2) {
+			return;
+		}
+
+		for (Integer intIndex = 0;
+			intIndex < objModel3D.getObjListOfPoint3D().size() - 1;
+			intIndex++) {
+
+			Matrix objMatrix = new Matrix(intViewType);
+
+			Point4D objPointStart
+				= objMatrix.multiply(
+						new Point4D(
+								objModel3D.getObjListOfPoint3D().get(intIndex).getX(),
+								objModel3D.getObjListOfPoint3D().get(intIndex).getY(),
+								objModel3D.getObjListOfPoint3D().get(intIndex).getZ(),
+								0.0));
+
+			Point4D objPointEnd
+				= objMatrix.multiply(
+						new Point4D(
+								objModel3D.getObjListOfPoint3D().get(intIndex + 1).getX(),
+								objModel3D.getObjListOfPoint3D().get(intIndex + 1).getY(),
+								objModel3D.getObjListOfPoint3D().get(intIndex + 1).getZ(),
+								0.0));
+
+			switch (intViewType) {
+
+				case Consts.View.INT_FRONT:
+
+					g.drawLine(
+							objPointStart.getX().intValue(),
+							objPointStart.getY().intValue(),
+							objPointEnd.getX().intValue(),
+							objPointEnd.getY().intValue());
+
+					g.drawRect(
+							objPointStart.getX().intValue() - 5,
+							objPointStart.getY().intValue() - 5,
+							10, 10);
+
+					break;
+
+				case Consts.View.INT_SIDE:
+
+					g.drawLine(
+							objPointStart.getZ().intValue(),
+							objPointStart.getY().intValue(),
+							objPointEnd.getZ().intValue(),
+							objPointEnd.getY().intValue());
+
+					g.drawRect(
+							objPointStart.getZ().intValue() - 5,
+							objPointStart.getY().intValue() - 5,
+							10, 10);
+
+					break;
+
+				case Consts.View.INT_TOP:
+
+					g.drawLine(
+							objPointStart.getX().intValue(),
+							objPointStart.getZ().intValue(),
+							objPointEnd.getX().intValue(),
+							objPointEnd.getZ().intValue());
+
+					g.drawRect(
+							objPointStart.getX().intValue() - 5,
+							objPointStart.getZ().intValue() - 5,
+							10, 10);
+
+					break;
+
+			}
+
+		}
+
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+
+		System.out.println("Added");
+
+		switch (intViewType) {
+
+			case Consts.View.INT_FRONT:
+				objModel3D.add(new Point3D((double)e.getX(), (double)e.getY(), (double)0));
+				break;
+
+			case Consts.View.INT_SIDE:
+				objModel3D.add(new Point3D((double)0, (double)e.getY(), (double)e.getX()));
+				break;
+
+			case Consts.View.INT_TOP:
+				objModel3D.add(new Point3D((double)e.getX(), (double)0, (double)e.getY()));
+				break;
+
+		}
+
+		repaint();
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+	public void ClearLine() {
+		objPointList.clear();
+	}
+
+}
